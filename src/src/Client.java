@@ -2,6 +2,7 @@ package src;
 
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 
 public class Client {
 	
@@ -31,8 +32,8 @@ public class Client {
         }
 				
       	// Variables for message passing	
-        Reader reader = new FileReader("../file.txt"); 
-		BufferedReader fromFile =  new BufferedReader(reader); // reader for the string file
+		InputStream input = Client.class.getResourceAsStream("/file.txt");
+		Scanner reader = new Scanner(input);
         String fromServer; // messages received from ServerRouter
         String fromUser; // messages sent to ServerRouter
 		String address ="10.5.2.109"; // destination IP (Server)
@@ -54,7 +55,7 @@ public class Client {
 			t = t1 - t0;
 			System.out.println("Cycle time: " + t);
           
-            fromUser = fromFile.readLine(); // reading strings from a file
+            fromUser = reader.nextLine(); // reading strings from a file
             if (fromUser != null) {
             	System.out.println("Client: " + fromUser);
                 out.println(fromUser); // sending the strings to the Server via ServerRouter
