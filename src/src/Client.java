@@ -14,7 +14,7 @@ public class Client {
         BufferedReader in = null; // for reading form ServerRouter
 		InetAddress addr = InetAddress.getLocalHost();
 		String host = addr.getHostAddress(); // Client machine's IP
-      	String routerName = "127.0.0.1"; // ServerRouter host name
+      	String routerName = "192.168.0.123"; // ServerRouter host name
 		int SockNum = 5555; // port number
 			
 		// Tries to connect to the ServerRouter
@@ -32,11 +32,11 @@ public class Client {
         }
 				
       	// Variables for message passing	
-		InputStream input = Client.class.getResourceAsStream("/file.txt");
+		InputStream input = Client.class.getResourceAsStream("/audio8.wav");
 		Scanner reader = new Scanner(input);
         String fromServer; // messages received from ServerRouter
         String fromUser; // messages sent to ServerRouter
-		String address ="10.5.2.109"; // destination IP (Server)
+		String address ="192.168.0.149"; // destination IP (Server)
 		long t0, t1, t;
 			
 		// Communication process (initial sends/receives
@@ -59,7 +59,6 @@ public class Client {
             if (fromUser != null) {
             	System.out.println("Client: " + fromUser);
                 out.println(fromUser); // sending the strings to the Server via ServerRouter
-				t0 = System.currentTimeMillis();
             }
         }
       	
