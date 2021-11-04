@@ -15,7 +15,7 @@ public class ClientVideo {
         BufferedReader in = null; // for reading form ServerRouter
 		InetAddress addr = InetAddress.getLocalHost();
 		String host = addr.getHostAddress(); // Client machine's IP
-      	String routerName = "10.0.2.15"; // ServerRouter host name
+      	String routerName = "172.22.5.83"; // ServerRouter host name
 		int SockNum = 5555; // port number
 			
 		// Tries to connect to the ServerRouter
@@ -33,7 +33,7 @@ public class ClientVideo {
         }
 				
       	// Variables for message passing
-		File file = new File("../test_video.mp4"); // Declare Video File
+		File file = new File(".\\test_video.mp4"); // Declare Video File
 		byte[] videoBytes = Files.readAllBytes(file.toPath()); // Store Video as byte[]
         String fromServer; // messages received from ServerRouter
         String fromUser; // messages sent to ServerRouter
@@ -69,8 +69,9 @@ public class ClientVideo {
 				if (count % buff.length == 999) {
 					fromUser = new String(buff);
 					System.out.println(fromUser);
-					//out.println();
+					out.println(fromUser);
 				}
+				count++;
 			}
         }
       	
