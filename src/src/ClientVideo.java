@@ -2,7 +2,8 @@ package src;
 
 import java.io.*;
 import java.net.*;
-import java.util.Scanner;
+import java.io.File;
+import java.nio.file.Files;
 
 public class ClientVideo {
 	
@@ -14,7 +15,7 @@ public class ClientVideo {
         BufferedReader in = null; // for reading form ServerRouter
 		InetAddress addr = InetAddress.getLocalHost();
 		String host = addr.getHostAddress(); // Client machine's IP
-      	String routerName = "192.168.0.123"; // ServerRouter host name
+      	String routerName = "10.0.2.15"; // ServerRouter host name
 		int SockNum = 5555; // port number
 			
 		// Tries to connect to the ServerRouter
@@ -31,12 +32,12 @@ public class ClientVideo {
             System.exit(1);
         }
 				
-      	// Variables for message passing	
-		InputStream input = Client.class.getResourceAsStream("/audio8.wav");
-		Scanner reader = new Scanner(input);
+      	// Variables for message passing
+		File file = new File("../test_video.mp4"); // Declare Video File
+		byte[] videoBytes = Files.readAllBytes(file.toPath()); // Store Video as byte[]
         String fromServer; // messages received from ServerRouter
         String fromUser; // messages sent to ServerRouter
-		String address ="192.168.0.149"; // destination IP (Server)
+		String address ="127.0.0.1"; // destination IP (Server)
 		long t0, t1, t;
 			
 		// Communication process (initial sends/receives
@@ -55,15 +56,25 @@ public class ClientVideo {
 			t = t1 - t0;
 			System.out.println("Cycle time: " + t);
           
-            fromUser = reader.nextLine(); // reading strings from a file
+            /* fromUser = reader.nextLine(); // reading strings from a file
             if (fromUser != null) {
             	System.out.println("Client: " + fromUser);
                 out.println(fromUser); // sending the strings to the Server via ServerRouter
-            }
+            } */
+
+			int count = 0;
+			byte[] buff = new byte[1000];
+			while (count < videoBytes.length) {
+				buff[(count % buff.length)] = videoBytes[count];
+				if (count % buff.length == 999) {
+					fromUser = new String(buff);
+					System.out.println(fromUser);
+					//out.println();
+				}
+			}
         }
       	
 		// closing connections
-		reader.close();
         out.close();
         in.close();
         Socket.close();
