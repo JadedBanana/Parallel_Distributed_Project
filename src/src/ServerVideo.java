@@ -46,10 +46,7 @@ public class ServerVideo {
 		// Communication while loop
       	while ((fromClient = in.readLine()) != null) {
             System.out.println("Client said: " + fromClient);
-            if (fromClient.equals("Bye.")) // exit statement
-				break;
-			
-            fromClient = in.readLine();
+            //fromClient = in.readLine();
             bytes = fromClient.getBytes();
             Files.write(outputFile.toPath(), bytes);
         }
