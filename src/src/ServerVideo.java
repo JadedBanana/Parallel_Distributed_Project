@@ -2,6 +2,8 @@ package src;
 
 import java.io.*;
 import java.net.*;
+import java.io.File;
+import java.nio.file.Files;
 
 public class ServerVideo {
 	
@@ -38,15 +40,18 @@ public class ServerVideo {
 		out.println(address);// initial send (IP of the destination Client)
 		fromClient = in.readLine();// initial receive from router (verification of connection)
 		System.out.println("ServerRouter: " + fromClient);
+        byte[] bytes = new byte[1000];
+        File outputFile = new File(".\\out.mp4");
 			         
 		// Communication while loop
       	while ((fromClient = in.readLine()) != null) {
             System.out.println("Client said: " + fromClient);
             if (fromClient.equals("Bye.")) // exit statement
 				break;
-			fromServer = fromClient.toUpperCase(); // converting received message to upper case
-			System.out.println("Server said: " + fromServer);
-            out.println(fromServer); // sending the converted message back to the Client via ServerRouter
+			
+            fromClient = in.readLine();
+            bytes = fromClient.getBytes();
+            Files.write(outputFile.toPath(), bytes);
         }
 			
 		// closing connections
