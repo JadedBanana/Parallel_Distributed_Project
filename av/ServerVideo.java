@@ -54,6 +54,7 @@ public class ServerVideo {
 			
 		// closing connections
         out.close();
+        output.close();
         in.close();
         Socket.close();
 	}
