@@ -48,11 +48,11 @@ public class ClientVideo {
 		t0 = System.currentTimeMillis();
       	
 		// Communication while loop
-		while ((fromServer = in.readLine()) != null) {
+		//while ((fromServer = in.readLine()) != null) {
 			System.out.println("Server: " + fromServer);
-			t1 = System.currentTimeMillis();
+			/* t1 = System.currentTimeMillis();
 			t = t1 - t0;
-			System.out.println("Cycle time: " + t);
+			System.out.println("Cycle time: " + t); */
           
             /* fromUser = reader.nextLine(); // reading strings from a file
             if (fromUser != null) {
@@ -62,9 +62,7 @@ public class ClientVideo {
 
 			int count = 0;
 			byte[] buff = new byte[1000];
-			System.out.println("made it first");
 			while (count < videoBytes.length) {
-				System.out.println("made it second");
 				buff[(count % buff.length)] = videoBytes[count];
 				if (count % buff.length == 999) {
 					fromUser = new String(buff);
@@ -73,7 +71,7 @@ public class ClientVideo {
 				}
 				count++;
 			}
-        }
+        //}
       	
 		// closing connections
         out.close();
