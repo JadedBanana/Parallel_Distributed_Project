@@ -41,14 +41,15 @@ public class ServerVideo {
 		fromClient = in.readLine();// initial receive from router (verification of connection)
 		System.out.println("ServerRouter: " + fromClient);
         byte[] bytes = new byte[1000];
-        File outputFile = new File("out.mp4");
-			         
+        //File outputFile = new File("out.mp4");
+        FileOutputStream output = new FileOutputStream("out.mp4", true);
+
 		// Communication while loop
       	while ((fromClient = in.readLine()) != null) {
             System.out.println("Client said: " + fromClient);
             //fromClient = in.readLine();
             bytes = fromClient.getBytes();
-            Files.write(outputFile.toPath(), bytes);
+            output.write(bytes);
         }
 			
 		// closing connections
