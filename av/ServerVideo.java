@@ -5,6 +5,8 @@ import java.net.*;
 import java.io.File;
 import java.nio.file.Files;
 
+import javax.xml.crypto.Data;
+
 public class ServerVideo {
 	
 	public static void main(String[] args) throws IOException {
@@ -12,7 +14,7 @@ public class ServerVideo {
 		// Variables for setting up connection and communication
         Socket Socket = null; // socket to connect with ServerRouter
         PrintWriter out = null; // for writing to ServerRouter
-        BufferedReader in = null; // for reading form ServerRouter
+        DataInputStream in = null; // for reading form ServerRouter
 		InetAddress addr = InetAddress.getLocalHost();
 		String host = addr.getHostAddress(); // Server machine's IP			
 		String routerName = "10.100.90.91"; // ServerRouter host name
@@ -22,7 +24,7 @@ public class ServerVideo {
         try {
         	Socket = new Socket(routerName, SockNum);
             out = new PrintWriter(Socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(Socket.getInputStream()));
+            in = new DataInputStream(Socket.getInputStream());
         } catch (UnknownHostException e) {
             System.err.println("Don't know about router: " + routerName);
             System.exit(1);
@@ -38,19 +40,15 @@ public class ServerVideo {
 			
 		// Communication process (initial sends/receives)
 		out.println(address);// initial send (IP of the destination Client)
-		fromClient = in.readLine();// initial receive from router (verification of connection)
+		fromClient = in.readUTF();// initial receive from router (verification of connection)
 		System.out.println("ServerRouter: " + fromClient);
-        byte[] bytes = new byte[1000];
+        fromClient = in.readUTF();// initial receive from router (verification of connection)
+		System.out.println("ServerRouter: " + fromClient);
         //File outputFile = new File("out.mp4");
         FileOutputStream output = new FileOutputStream("out.mp4", true);
 
-		// Communication while loop
-      	while ((fromClient = in.readLine()) != null) {
-            System.out.println("Client said: " + fromClient);
-            //fromClient = in.readLine();
-            bytes = fromClient.getBytes();
-            output.write(bytes);
-        }
+        byte[] recieved = in.readAllBytes();
+		output.write(recieved);
 			
 		// closing connections
         out.close();
