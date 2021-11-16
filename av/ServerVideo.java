@@ -1,9 +1,8 @@
-package av;
-
 import java.io.*;
 import java.net.*;
 import java.io.File;
 import java.nio.file.Files;
+import java.util.Base64;
 
 public class ServerVideo {
 	
@@ -43,12 +42,15 @@ public class ServerVideo {
         byte[] bytes = new byte[1000];
         //File outputFile = new File("out.mp4");
         FileOutputStream output = new FileOutputStream("out.mp4", true);
+        
+        // Get base64 decoder
+		Base64.Decoder d = Base64.getDecoder();
 
 		// Communication while loop
       	while ((fromClient = in.readLine()) != null) {
             System.out.println("Client said: " + fromClient);
             //fromClient = in.readLine();
-            bytes = fromClient.getBytes();
+            bytes = d.decode(fromClient);
             output.write(bytes);
         }
 			

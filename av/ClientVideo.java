@@ -1,9 +1,8 @@
-package av;
-
 import java.io.*;
 import java.net.*;
 import java.io.File;
 import java.nio.file.Files;
+import java.util.Base64;
 
 public class ClientVideo {
 	
@@ -39,6 +38,9 @@ public class ClientVideo {
         String fromUser; // messages sent to ServerRouter
 		String address = "10.100.75.73"; // destination IP (Server)
 		long t0, t1, t;
+		
+		// Get base64 encoder
+		Base64.Encoder e = Base64.getEncoder();
 			
 		// Communication process (initial sends/receives
 		out.println(address);// initial send (IP of the destination Server)
@@ -65,7 +67,7 @@ public class ClientVideo {
 			while (count < videoBytes.length) {
 				buff[(count % buff.length)] = videoBytes[count];
 				if (count % buff.length == 999) {
-					fromUser = new String(buff);
+					fromUser = e.encodeToString(buff);
 					System.out.println(fromUser);
 					out.println(fromUser);
 				}

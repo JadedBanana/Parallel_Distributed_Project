@@ -1,5 +1,3 @@
-package av;
-
 import java.io.*;
 import java.net.*;
 	
